@@ -1,0 +1,12 @@
+/* CSS declarations go here */
+.hidden_div{
+	display:none;
+}
+#menu ul li:last-child{   
+	float: right;
+}
+
+.menu{
+	margin: 0;
+	padding: 0;
+}
