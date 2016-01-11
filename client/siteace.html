@@ -1,5 +1,7 @@
 <head>
   <title>Site Ace</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 </head>
 
 <body>
@@ -23,16 +25,23 @@
 	</div>
 </template>
 <template name="websites">
-	<div class="container">
+	<div class="container pagewrapper">
 		{{#if currentUser}}
 			{{> website_form}}
+		{{/if}}
+		{{#if search}}
+			{{> clearsearch}}
 		{{/if}}
 		{{> website_list}}
 	</div>
 </template>
 
+<template name="clearsearch">
+	<button class="btn btn-xs btn-info js-clear-search">clear</button>
+</template>
+
 <template name="website">
-	<div class="container">
+	<div class="container pagewrapper">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2
 						col-lg-8 col-md-offset-2">
@@ -41,33 +50,61 @@
 			<div class="col-md-8 col-md-offset-2
 						col-lg-8 col-md-offset-2">
 				<div class="comment-section">
-				    {{> commentsBox id=_id}}
+				    {{> commentsBox id=commentid}}
 				</div>
 			</div>
-		</div>	
+		</div>
 	</div>
 </template>
 
 <template name="nav_common">
 	{{> error_modal}}
 	<!-- navbar  - you will be putting the login functions here -->
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default navbar-fixed-top" id="fixed-navbar">
 	  	<div class="container-fluid">
 	    	<div class="navbar-header">
-	      		<a class="navbar-brand" href="#">
-	        		Site Ace
-	      		</a>
+    			<a class="navbar-brand js-routehome" href="/websites">
+        			Site Ace
+      			</a>	
+	      		<button type="button" class="navbar-toggle collapsed js-collapser"
+	      				data-toggle="collapse" data-target="#myNavbar">
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>                        
+		      	</button>
 	    	</div>
-	    	<div class="nav navbar-nav navbar-right">
-           		{{> loginButtons align="right"}}
-           	</div>
-	    	<form method="post" class="navbar-form navbar-right js-search" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="search" name="search" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-           	</form>
-	  	</div>
+	    	{{#if currentUser}}
+	    		<ul class="nav navbar-nav navbar-left">
+		   			<li class="active js-toggle-website-form">
+		   				<a href="#" class="">
+		   					<span class="glyphicon glyphicon-plus">
+		   						URL	           						
+		   					</span>
+		   				</a>
+		   			</li>
+				</ul>
+			{{/if}}
+  			<div class="collapse navbar-collapse" id="myNavbar">
+	    		
+	    		<div class="nav navbar-nav navbar-right">
+	           			{{> loginButtons align="right"}}
+		    	</div>
+			    <form method="post" class="navbar-form navbar-right form-inline js-search" role="search">
+	                <div class="form-group">
+	                    <input type="text" class="form-control js-search-input" 
+	                    	id="search" name="search" placeholder="Search"
+	                    	data-toggle="tooltip" data-placement="bottom"
+	                    	title="Your input will be recorded to form better recomendations for you. Don't worry nobody except machines will ever look at them">
+	                </div> <!-- /form-group -->
+	                	<button type="submit" class="btn btn-default">Submit</button>
+	           	</form>
+	           	{{#if currentUser}}
+		           	<ul class="nav navbar-nav navbar-right">
+		           		<li class="active"><a href="#" class="js-recommend">Recommendations</a></li>
+			    	</ul>
+			    {{/if}}
+		   	</div> <!-- /collapse -->
+	  	</div> <!-- /container-fluid -->
 	</nav>
 </template>
 
@@ -93,15 +130,21 @@
 	</div>
 </template>
 
+<template name="loading">
+	<div class="alert alert-warning alert-dismissible js-form-alert" role="alert">
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	  	<span aria-hidden="true">&times;</span>
+	  </button>
+	  <strong>Please Wait!</strong> Fetching the website details
+	</div>
+</template>
 <template name="website_form">
-	<a class="btn btn-default js-toggle-website-form" href="#">
-  		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-	</a>
 	<div id="website_form" class="hidden_div">
+		<div id="loading"></div>
 		<form class="js-save-website-form">
 		  	<div class="form-group">
 		    	<label for="url">Site address</label>
-		    	<input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+		    	<input type="text" class="form-control" id="url" placeholder="mysite.com">
 		  	</div>
 		  	<div id="website_form_hidden" class="hidden_div">
 			  	<div class="form-group" >
@@ -143,7 +186,12 @@
 			<li><p class="small text-right">{{getDate(createdOn)}}</p></li>
 		</ul>
 	<p>
-		{{description}}.. <a href="/websites/{{_id}}">see more</a>
+		{{description}}.. 
+		{{#if single}}
+			<a href="/websites/">go back</a>
+		{{else}}
+			<a href="/websites/{{_id}}">see more</a>
+		{{/if}}
 	</p>
 	<a href="#" class="btn btn-default js-upvote">
 		<span class="badge">{{upvotes}}</span>
