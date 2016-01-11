@@ -123,7 +123,7 @@ Template.website_form.events({
 					$('.js-form-alert').alert('close');
 				});
 			}
-			Blaze.render(Template.loading,document.getElementById("loading"));
+			var loading=Blaze.render(Template.loading,document.getElementById("loading"));
 			if(!event.target.title.value || !event.target.title.value || !event.target.description.value)
 				return false;
 			else {
@@ -149,8 +149,4 @@ Template.website_form.events({
 		return false;
 
 	},
-});
-
-Template.website_form.onRendered(function(){
-	//this.$('.js-form-alert').alert('close');
 });

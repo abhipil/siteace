@@ -1,0 +1,72 @@
+<template name="reqs">
+	<h1 id="site-ace">Site Ace</h1>
+	<p>Practice Project in Meteor</p>
+	<div class="alert alert-success" role="alert">
+		You may use the following for login:<br>
+		Username: demo<br>
+		Pasword: demo123<br>
+		Everything else is starter data.
+	</div>
+	<p>Source: <a href="https://www.coursera.org/learn/meteor-development/home/welcome">Introduction to Meteor.js Development</a> from Coursera</p>
+	<p>Requirements:</p>
+
+	<ul style="list-style-type: none;">
+		<li>
+			<span class="label label-success"><span class="glyphicon glyphicon-ok">
+			</span></span>
+			Users can register and login.
+		</li>
+		<li>
+			<span class="label label-success"><span class="glyphicon glyphicon-ok">
+			</span></span>
+				Users can post new websites if they are logged in. Websites posted by users should have an URL and a description.
+		</li>
+		<li>
+			<span class="label label-success"><span class="glyphicon glyphicon-ok">
+			</span></span>
+				Users can up and down vote webpages by clicking a plus or a minus button.
+		</li>
+		<li>
+			<span class="label label-success"><span class="glyphicon glyphicon-ok">
+			</span></span>
+				Websites should be listed with the most up voted site first.
+		</li>
+		<li>
+			<span class="label label-success"><span class="glyphicon glyphicon-ok">
+			</span></span>
+			The listing page shows when the website was added and how many up and down votes it has.
+		</li>
+		<li>
+			<span class="label label-success"><span class="glyphicon glyphicon-ok">
+			</span></span>
+				Users can move to a detail page for a website (using routing).
+		</li>
+		<li>
+			<span class="label label-success"><span class="glyphicon glyphicon-ok">
+			</span></span>
+				On the detail page, users can post comments about a webpage, and they are displayed below the description of the webpage.
+		</li>
+	</ul>
+
+	<p>Additional features:</p>
+
+	<strong>Challenge 1: Automatic information </strong><span class="label label-success"><span class="glyphicon glyphicon-ok"></span></span><br><br>
+	<p>Can you use the HTTP package for Meteor to pull in information about the posted web links automatically, so the user does not need to enter anything other than the URL? </p>
+	<div class="alert alert-warning" role="alert">
+		Bug #1: Using Meteor.call(). Due to asynchronous function, have to wait till the results of the Http.call is received after submiting the url<br>
+		Bug #2: Most production sites store their title and desciption in the html meta tags. Sadly, everybody has a differing attribute values for storing these values. Currently, only the title tag and the description meta tag is checked. If a no result, then user is prompted enter the missing fields themselves.
+	</div>
+
+	<strong>Challenge 2: Search function</strong> <span class="label label-success"><span class="glyphicon glyphicon-ok"></span></span><br>
+	<p>Implement a search function that allows the user to search within the listed sites for key words</p>
+	<div class="alert alert-info" role="alert">
+		Search keys are queried in the title and the description of the websites
+	</div>
+	<strong>Challenge 3: Website recommender</strong> <span class="label label-success"><span class="glyphicon glyphicon-ok"></span></span><br>
+	<p>Can you recommend websites to users based on things they have up voted and commented on? E.g. if I up vote a site entitled ‘Tofu recipes’, it would recommend other sites with ‘tofu’ and ‘recipe’ in their titles or descriptions. </p>
+	<div class="alert alert-info" role="alert">
+		Recommendations are based on search keys and titles of the websites which the user either upvotes or comments upon. Recommendations are queried in the title and description of each site in the collection.<br>
+		Recommendations are obviously personalised for each user.
+	</div>
+</template>
+	
